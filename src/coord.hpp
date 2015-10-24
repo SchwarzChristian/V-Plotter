@@ -4,6 +4,8 @@
 #include "point.hpp"
 #include "control.hpp"
 
+class Stepper;
+
 class Coord {
 private:
 	int   _width;
