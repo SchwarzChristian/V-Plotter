@@ -135,7 +135,8 @@ void init_control(Coord& _coord) {
 	  // draw printer
 	  Point* pos = get_pos(*coord);
 	  glBegin(GL_LINES);
-	  glColor3f(0, 1, 0);
+	  if (curr_trace) glColor4f(0, 0, 1, 1);
+	  else glColor3f(0, 1, 0);
 
 	  glVertex3f(pos->x - 10, pos->y - 10, 0);
 	  glVertex3f(pos->x + 10, pos->y + 10, 0);
@@ -143,6 +144,7 @@ void init_control(Coord& _coord) {
 	  glVertex3f(pos->x + 10, pos->y - 10, 0);
 	  glVertex3f(pos->x - 10, pos->y + 10, 0);
 
+	  // draw strings
 	  glColor3f(1, 0, 0);
 	  glVertex3f(motor_l->x, motor_l->y, 0);
 	  glVertex3f(pos->x,     pos->y, 0);
