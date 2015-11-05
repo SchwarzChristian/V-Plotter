@@ -11,7 +11,7 @@ bin/simulator: obj/main.o obj/control_sim.o obj/coord.o obj/point.o
 	$(CC_CPP) -o $@ $(CLIBS) -lGL -lGLU -lglut $^
 
 bin/controller: obj/main.o obj/control_wp.o obj/coord.o obj/point.o
-	$(CC_CPP) -o $@ $(CLIBS) -lGL -lGLU -lglut $^
+	$(CC_CPP) -o $@ $(CLIBS) $^
 
 obj/control_wp.o: src/control_wp.cpp src/control.hpp Makefile
 	$(CC_CPP) -c -o $@ $(CFLAGS)  $<

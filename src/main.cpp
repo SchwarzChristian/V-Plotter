@@ -24,24 +24,6 @@ using namespace std;
  * h           // move to calibration point
  */
  
- void wait(int usec) {
-  struct timeval start, now;
-  time_t diff;
-
-  gettimeofday(&start, NULL);
-
-  do {
-    usleep(usec);
-    gettimeofday(&now, NULL);
-    diff = (now.tv_sec - start.tv_sec) * 1000000 +
-      (now.tv_usec - start.tv_usec);
-    //cout << "now:   " << now.tv_sec << "." << now.tv_usec << endl;
-    //cout << "start: " << start.tv_sec << "." << start.tv_usec << endl;
-    //cout << "diff:  " << diff << endl;
-    //cout << "usec:  " << usec << endl;
-  } while (diff < usec);
-}
-
 void wait(int usec) {
   struct timeval start, now;
   time_t diff;
@@ -64,8 +46,6 @@ int main(int argc, char* argv[]) {
   // const byte pwm_up   = 7;
   // const byte pwm_down = 3;
 
-  init_control();
-
   string buf = "";
   vector<string> cmd;
   int steps = 0;
@@ -76,9 +56,9 @@ int main(int argc, char* argv[]) {
   Coord coord(0, 0, &left_motor, &right_motor);
   Servo servo;
 	
-  coord.motor_l(Point(100, 1260));
-  coord.motor_r(Point(570, 1260));
-  coord.cali(   Point(305, 1160));
+  coord.motor_l(Point(-27, 440));
+  coord.motor_r(Point(543, 440));
+  coord.cali(   Point(230, 350));
 
   init_control(coord);
 	
