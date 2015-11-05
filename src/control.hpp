@@ -4,9 +4,13 @@
 #include <vector>
 #include <string>
 
+#include "coord.hpp"
+
 typedef unsigned char byte;
 
 using namespace std;
+
+class Coord;
 
 typedef enum {
   MOTOR_LEFT,
@@ -20,7 +24,7 @@ const unsigned int STEPS_PER_SECOND = 1000;  // steps / sec
 const float STEPS_PER_MM = 10000 / 315;   // steps / mm
 const byte SERVO_PIN = 1;
 
-void init_control();
+void init_control(Coord& coord);
 
 class Stepper {
 private:

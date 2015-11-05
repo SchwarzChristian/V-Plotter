@@ -46,9 +46,9 @@ Point& Coord::motor_r() {
 
 
 void   Coord::cali(Point p) {
-  cout << "p1: (" << p.x << "; " << p.y << ")" << endl;
+  // cout << "p1: (" << p.x << "; " << p.y << ")" << endl;
   _cali = p;
-  cout << "p2: (" << p.x << "; " << p.y << ")" << endl;
+  // cout << "p2: (" << p.x << "; " << p.y << ")" << endl;
   _pos  = p;
 }
 
@@ -72,6 +72,10 @@ void Coord::move(Point target) {
   go(_pos + target);
 }
 
+void Coord::home() {
+  go(_cali);
+}
+
 void Coord::go(Point target) {
   double dl, dr;
   double ll, lr;
@@ -93,7 +97,8 @@ void Coord::go(Point target) {
 	
   if (tr != lr)
     dir_r = tr > lr ? 1 : -1;
-	
+
+/*
   cout << "pos:    ("<< _pos.x << ";" << _pos.y << ")" << endl;
   cout << "target: ("<< target.x << ";" << target.y << ")" << endl;
   cout << "dir_l:  " << (int)dir_l << endl;
@@ -101,6 +106,7 @@ void Coord::go(Point target) {
   cout << "ll:     " << ll << endl << "lr:    " << lr << endl;
   cout << "tl:     " << tl << endl << "tr:    " << tr << endl;
   cout << "dl:     " << dl << endl << "dr:    " << dr << endl;
+//*/	 
 
   if (dl < 0) dl = -dl;
   if (dr < 0) dr = -dr;

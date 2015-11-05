@@ -1,3 +1,4 @@
+// libs: GL GLU glut
 #include <iostream> 
 #include <string>
 
@@ -11,15 +12,16 @@
 using namespace std;
 
 /*
- * l <length>  [speed] // direct control, left motor
- * r <length>  [speed] // direct control, right motor
- * m <dx> <dy> [speed] // move relative to current position
- * g  <x>  <y> [speed] // move to absolute coordinate
- * c                   // calibrate
- * u                   // move pen up
- * d                   // move pin down
- * w <time>            // wait for a given time (in ms)
- * s <level>           // set servo to this pwm level
+ * l <length>  // direct control, left motor
+ * r <length>  // direct control, right motor
+ * m <dx> <dy> // move relative to current position
+ * g <x>  <y>  // move to absolute coordinate
+ * c           // calibrate printer position
+ * u           // move pen up
+ * d           // move pin down
+ * w <time>    // wait for a given time (in ms)
+ * s <level>   // set servo to this pwm level
+ * h           // move to calibration point
  */
  
  void wait(int usec) {
@@ -40,6 +42,24 @@ using namespace std;
   } while (diff < usec);
 }
 
+void wait(int usec) {
+  struct timeval start, now;
+  time_t diff;
+
+  gettimeofday(&start, NULL);
+
+  do {
+    usleep(usec);
+    gettimeofday(&now, NULL);
+    diff = (now.tv_sec - start.tv_sec) * 1000000 +
+      (now.tv_usec - start.tv_usec);
+    // cout << "now:   " << now.tv_sec << "." << now.tv_usec << endl;
+    // cout << "start: " << start.tv_sec << "." << start.tv_usec << endl;
+    // cout << "diff:  " << diff << endl;
+    // cout << "usec:  " << usec << endl;
+  } while (diff < usec);
+}
+
 int main(int argc, char* argv[]) {
   // const byte pwm_up   = 7;
   // const byte pwm_down = 3;
@@ -50,7 +70,7 @@ int main(int argc, char* argv[]) {
   vector<string> cmd;
   int steps = 0;
   char c;
-	
+
   Stepper left_motor (MOTOR_LEFT);
   Stepper right_motor(MOTOR_RIGHT);
   Coord coord(0, 0, &left_motor, &right_motor);
@@ -59,13 +79,15 @@ int main(int argc, char* argv[]) {
   coord.motor_l(Point(100, 1260));
   coord.motor_r(Point(570, 1260));
   coord.cali(   Point(305, 1160));
+
+  init_control(coord);
 	
   while (true) {
     Stepper *selected = NULL;
     cmd.clear();
     buf = "";
 
-    cout << left_motor.to_s() << endl << right_motor.to_s() << endl;
+    // cout << left_motor.to_s() << endl << right_motor.to_s() << endl;
     
     cout << "> ";
     cout.flush();
@@ -122,17 +144,20 @@ int main(int argc, char* argv[]) {
       coord.move(Point(stoi(cmd.at(1)),
 		               stoi(cmd.at(2))));
       break;
+    case 'h':
+      coord.home();
     }
     
     if (selected) {
       steps = stoi(cmd.at(1));
       selected->move(1, steps);
     }
-
+    
     bool running = true;
     while (running) {
       running = right_motor.tic();
       running = left_motor.tic() or running;
+
       wait(1000000 / STEPS_PER_SECOND);
     }
   }
