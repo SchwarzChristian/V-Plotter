@@ -2,6 +2,7 @@
 #include <string>
 
 #include <unistd.h>
+#include <sys/time.h>
 
 #include "control.hpp"
 #include "coord.hpp"
@@ -20,10 +21,30 @@ using namespace std;
  * w <time>            // wait for a given time (in ms)
  * s <level>           // set servo to this pwm level
  */
+ 
+ void wait(int usec) {
+  struct timeval start, now;
+  time_t diff;
+
+  gettimeofday(&start, NULL);
+
+  do {
+    usleep(usec);
+    gettimeofday(&now, NULL);
+    diff = (now.tv_sec - start.tv_sec) * 1000000 +
+      (now.tv_usec - start.tv_usec);
+    //cout << "now:   " << now.tv_sec << "." << now.tv_usec << endl;
+    //cout << "start: " << start.tv_sec << "." << start.tv_usec << endl;
+    //cout << "diff:  " << diff << endl;
+    //cout << "usec:  " << usec << endl;
+  } while (diff < usec);
+}
 
 int main(int argc, char* argv[]) {
   // const byte pwm_up   = 7;
   // const byte pwm_down = 3;
+
+  init_control();
 
   string buf = "";
   vector<string> cmd;
@@ -35,9 +56,9 @@ int main(int argc, char* argv[]) {
   Coord coord(0, 0, &left_motor, &right_motor);
   Servo servo;
 	
-  coord.motor_l(Point( 13, 1053));
-  coord.motor_r(Point(600, 1053));
-  coord.cali(   Point(280,  475));
+  coord.motor_l(Point(100, 1260));
+  coord.motor_r(Point(570, 1260));
+  coord.cali(   Point(305, 1160));
 	
   while (true) {
     Stepper *selected = NULL;
@@ -94,26 +115,25 @@ int main(int argc, char* argv[]) {
 
     case 'g':
 	coord.go(Point(stoi(cmd.at(1)),
-		       stoi(cmd.at(2))));
+		           stoi(cmd.at(2))));
       break;
 
     case 'm':
       coord.move(Point(stoi(cmd.at(1)),
-		       stoi(cmd.at(2))));
+		               stoi(cmd.at(2))));
       break;
     }
     
     if (selected) {
-      steps = stoi(cmd.at(1)) * STEPS_PER_MM;
-      if (steps < 0) selected->move(-1, steps);
-      else selected->move(1, steps);
+      steps = stoi(cmd.at(1));
+      selected->move(1, steps);
     }
 
     bool running = true;
     while (running) {
       running = right_motor.tic();
       running = left_motor.tic() or running;
-      usleep(1000000 / STEPS_PER_SECOND);
+      wait(1000000 / STEPS_PER_SECOND);
     }
   }
  end:

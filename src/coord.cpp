@@ -76,8 +76,8 @@ void Coord::go(Point target) {
   double dl, dr;
   double ll, lr;
   double tl, tr;
-  char dir_l = 0;
-  char dir_r = 0;
+  signed char dir_l = 0;
+  signed char dir_r = 0;
 	
   ll = calc_length(_pos, _motor_l);
   lr = calc_length(_pos, _motor_r);
@@ -94,25 +94,24 @@ void Coord::go(Point target) {
   if (tr != lr)
     dir_r = tr > lr ? 1 : -1;
 	
-  //*	
-  cout << "ll: " << ll << endl << "lr: " << lr << endl
-       << "tl: " << tl << endl << "tr: " << tr << endl
-       << "dl: " << dl << endl << "dr: " << dr << endl;
-  //*/	 
+  cout << "pos:    ("<< _pos.x << ";" << _pos.y << ")" << endl;
+  cout << "target: ("<< target.x << ";" << target.y << ")" << endl;
+  cout << "dir_l:  " << (int)dir_l << endl;
+  cout << "dir_r:  " << (int)dir_r << endl;
+  cout << "ll:     " << ll << endl << "lr:    " << lr << endl;
+  cout << "tl:     " << tl << endl << "tr:    " << tr << endl;
+  cout << "dl:     " << dl << endl << "dr:    " << dr << endl;
 
   if (dl < 0) dl = -dl;
   if (dr < 0) dr = -dr;
 
   if (dl > dr) {
-    _p_motor_l->move(1,       dir_l * dl);
-    _p_motor_r->move(dr / dl, dir_r * dr);
+    _p_motor_l->move(1,       dir_l * dl * STEPS_PER_MM);
+    _p_motor_r->move(dr / dl, dir_r * dr * STEPS_PER_MM);
   } else {
-    _p_motor_l->move(dl / dr, dir_l * dl);
-    _p_motor_r->move(1,       dir_r * dr);
+    _p_motor_l->move(dl / dr, dir_l * dl * STEPS_PER_MM);
+    _p_motor_r->move(1,       dir_r * dr * STEPS_PER_MM);
   }
-  /*
-    cout << "l_speed: " << _p_motor_l->speed << endl
-    << "r_speed: " << _p_motor_r->speed << endl;
-  */
+
   _pos = target;	 
 }

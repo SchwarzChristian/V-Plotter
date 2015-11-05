@@ -1,7 +1,7 @@
 CC_C    = gcc
 CC_CPP  = g++
 CFLAGS  = -Wall -g -std=c++0x
-CLIBS   = -Llib
+CLIBS   = -Llib -lwiringPi
 
 all: bin/main Makefile
 

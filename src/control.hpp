@@ -17,7 +17,7 @@ typedef enum {
 //const float MAX_SPEED = 4 * 1024 / 60.0;    // steps / sec
 const float MAX_SPEED = 500;    // steps / sec
 const unsigned int STEPS_PER_SECOND = 1000;  // steps / sec
-const float STEPS_PER_MM = 10000 / 160;   // steps / mm
+const float STEPS_PER_MM = 10000 / 315;   // steps / mm
 const byte SERVO_PIN = 1;
 
 void init_control();

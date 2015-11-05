@@ -33,10 +33,12 @@ void Stepper::move(double speed, double steps) {
 }
 
 bool Stepper::tic() {
+  /*
   cout << "motor:  " << MOTOR_TYPES[_type] << endl
        << "steps:  " << _steps << endl
        << "target: " << _steps_target << endl
        << "speed:  " << _speed << endl << endl;
+  //*/
   if (_steps < _steps_target + 0.5 and _steps > _steps_target - 0.5)
     return false;
 
