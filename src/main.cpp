@@ -12,15 +12,16 @@
 using namespace std;
 
 /*
- * l <length>  [speed] // direct control, left motor
- * r <length>  [speed] // direct control, right motor
- * m <dx> <dy> [speed] // move relative to current position
- * g  <x>  <y> [speed] // move to absolute coordinate
- * c                   // calibrate
- * u                   // move pen up
- * d                   // move pin down
- * w <time>            // wait for a given time (in ms)
- * s <level>           // set servo to this pwm level
+ * l <length>  // direct control, left motor
+ * r <length>  // direct control, right motor
+ * m <dx> <dy> // move relative to current position
+ * g <x>  <y>  // move to absolute coordinate
+ * c           // calibrate printer position
+ * u           // move pen up
+ * d           // move pin down
+ * w <time>    // wait for a given time (in ms)
+ * s <level>   // set servo to this pwm level
+ * h           // move to calibration point
  */
 
 void wait(int usec) {
@@ -66,7 +67,7 @@ int main(int argc, char* argv[]) {
     cmd.clear();
     buf = "";
 
-    cout << left_motor.to_s() << endl << right_motor.to_s() << endl;
+    // cout << left_motor.to_s() << endl << right_motor.to_s() << endl;
     
     cout << "> ";
     cout.flush();
@@ -123,6 +124,8 @@ int main(int argc, char* argv[]) {
       coord.move(Point(stoi(cmd.at(1)),
 		       stoi(cmd.at(2))));
       break;
+    case 'h':
+      coord.home();
     }
     
     if (selected) {
