@@ -1,20 +1,34 @@
 CC_C    = gcc
 CC_CPP  = g++
-CFLAGS  = -Wall -g -std=c++0x
-CLIBS   = -Llib -lwiringPi
+CFLAGS  = -Wall -g -fPIC -std=c++0x
+CLIBS   = 
+AR	= ar
 
-all: controller simulator
 controller: bin/controller Makefile
 simulator: bin/simulator Makefile
+
+
+# binaries
 
 bin/simulator: obj/main.o obj/control_sim.o obj/coord.o obj/point.o
 	$(CC_CPP) -o $@ $(CLIBS) -lGL -lGLU -lglut $^
 
-bin/controller: obj/main.o obj/control_wp.o obj/coord.o obj/point.o
-	$(CC_CPP) -o $@ $(CLIBS) $^
+bin/controller: obj/main.o bin/libvplotter.so
+	$(CC_CPP) -o $@ $(CLIBS) -Lbin -lvplotter $<
+
+
+# libraries
+
+bin/libvplotter.so: obj/libvplotter.o obj/control_wp.o obj/coord.o obj/point.o
+	$(CC_CPP) -shared -o $@ $^
+
+# objects
+
+obj/libvplotter.o: src/libvplotter.cpp src/libvplotter.hpp
+	$(CC_CPP) -c -o $@ $(CFLAGS) $<
 
 obj/control_wp.o: src/control_wp.cpp src/control.hpp Makefile
-	$(CC_CPP) -c -o $@ $(CFLAGS)  $<
+	$(CC_CPP) -c -o $@ $(CFLAGS) -lwiringPi $<
 
 obj/control_sim.o: src/control_sim.cpp src/control.hpp Makefile
 	$(CC_CPP) -c -o $@ $(CFLAGS)  $<

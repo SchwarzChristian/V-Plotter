@@ -117,12 +117,12 @@ int main(int argc, char* argv[]) {
 
     case 'g':
 	coord.go(Point(stoi(cmd.at(1)),
-		           stoi(cmd.at(2))));
+		       stoi(cmd.at(2))));
       break;
 
     case 'm':
       coord.move(Point(stoi(cmd.at(1)),
-		               stoi(cmd.at(2))));
+		       stoi(cmd.at(2))));
       break;
     case 'h':
       coord.home();
