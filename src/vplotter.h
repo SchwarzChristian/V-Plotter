@@ -1,9 +1,12 @@
-#ifndef __LIBVPLOTTER_HPP__
-#define __LIBVPLOTTER_HPP__
+#ifndef __VPLOTTER_H__
+#define __VPLOTTER_H__
 
 #include "control.hpp"
 
+#ifdef __cplusplus
 extern "C" {
+#endif
+
   void vp_init(int left_motor_x,        int left_motor_y,
 	       int right_motor_x,       int right_motor_y,
 	       int calibration_point_x, int calibration_point_y,
@@ -19,6 +22,9 @@ extern "C" {
   void vp_move(int x, int y);
   void vp_home();
   void vp_close();
+
+#ifdef __cplusplus
 }
+#endif
 
 #endif

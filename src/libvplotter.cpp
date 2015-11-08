@@ -1,13 +1,15 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-#include "libvplotter.hpp"
+#include "vplotter.h"
 #include "coord.hpp"
 
-Stepper *left_motor;
-Stepper *right_motor;
-Servo   *servo;
-Coord   *coord;
+namespace {
+  Stepper *left_motor;
+  Stepper *right_motor;
+  Servo   *servo;
+  Coord   *coord;
+}
 
 void execute() {
     bool running = true;
