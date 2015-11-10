@@ -95,7 +95,6 @@ void vp_home() {
 }
 
 void vp_close() {
-  vp_home();
   if (left_motor)  delete left_motor;
   if (right_motor) delete right_motor;
   if (servo)       delete servo;

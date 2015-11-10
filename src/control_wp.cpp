@@ -62,7 +62,7 @@ bool Stepper::tic() {
 
   _steps += MAX_SPEED * _speed * STEPS_PER_SECOND / 1000000.0;
   
-  cout << _id << ": " << _steps_target - _steps << " steps left" << endl;
+  // cout << _id << ": " << _steps_target - _steps << " steps left" << endl;
 
   if (_speed < 0) {
     if (_steps <= _last_step - 1) {
@@ -85,7 +85,7 @@ void Stepper::step() {
   byte next_pin = (_active + direction + 4) % 4;
   byte next_next_pin = (next_pin + direction + 4) % 4;
   
-  cout << _id << ": " << (int)_active << endl;
+  // cout << _id << ": " << (int)_active << endl;
   
   digitalWrite(_pins[next_pin], 1);
   digitalWrite(_pins[next_next_pin], 1);

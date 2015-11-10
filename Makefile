@@ -20,7 +20,7 @@ bin/controller: obj/main.o bin/libvplotter.so
 # libraries
 
 bin/libvplotter.so: obj/libvplotter.o obj/control_wp.o obj/coord.o obj/point.o
-	$(CC_CPP) -shared -o $@ $^
+	$(CC_CPP) -shared -o $@ -lwiringPi $^
 
 bin/libvsimulator.so: obj/libvplotter.o obj/control_sim.o obj/coord.o obj/point.o
 	$(CC_CPP) -shared -o $@ -lGL -lGLU -lglut $^
