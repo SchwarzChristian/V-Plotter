@@ -1,11 +1,13 @@
 // libs: GL GLU glut
 #include <iostream> 
 #include <string>
+#include <vector>
 
 #include <unistd.h>
 #include <sys/time.h>
 
 #include "vplotter.h"
+#include "control.hpp"
 
 using namespace std;
 
@@ -28,14 +30,14 @@ int main(int argc, char* argv[]) {
 
   string buf = "";
   vector<string> cmd;
-  int steps = 0;
   char c;
 
   vp_init(-27, 440, 543, 440,
-	  230, 350,   0,   0);
+	      230, 350,   
+	       30,  70, 100,
+	        0,   0);
 	
   while (true) {
-    Stepper *selected = NULL;
     cmd.clear();
     buf = "";
 

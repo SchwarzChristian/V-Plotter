@@ -52,8 +52,10 @@ class Servo {
 private:
   byte _pin;
   int  _range;
+  int  _up;
+  int  _down;
 public:
-  Servo(int range = 100, byte pin = SERVO_PIN);
+  Servo(int up, int down, int range = 100, byte pin = SERVO_PIN);
 
   void set(int target) const;
   void up() const;

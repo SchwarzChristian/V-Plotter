@@ -95,10 +95,25 @@ void Stepper::step() {
   _real_steps += direction;
 }
 
-Servo::Servo(int range, byte pin) {}
+Servo::Servo(int pup, int pdown, int range, byte pin) {
+	_range = range;
+	_pin   = pin;
+	_up    = pup;
+	_down  = pdown;
+	
+	pwmSetMode(PWM_MODE_MS);
+	pinMode(_pin, PWM_OUTPUT);
+	pwmSetRange(_range);
+}
 
-void Servo::set(int target) const {}
+void Servo::set(int target) const {
+	pwmWrite(_pin, target);
+}
 
-void Servo::up() const {}
+void Servo::up() const {
+	pwmWrite(_pin, _up);	
+}
 
-void Servo::down() const {}
+void Servo::down() const {
+	pwmWrite(_pin, _down);
+}

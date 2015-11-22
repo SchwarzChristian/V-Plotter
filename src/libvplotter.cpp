@@ -24,13 +24,14 @@ void execute() {
 void vp_init(int lx, int ly,
 	     int rx, int ry,
 	     int cx, int cy,
+	     int sd, int su, int sr,
 	     int w,  int h) {
 
   left_motor  = new Stepper(MOTOR_LEFT);
   right_motor = new Stepper(MOTOR_RIGHT);
   coord       = new Coord(w, h, left_motor, right_motor);
 
-  servo = new Servo();
+  servo = new Servo(sd, su, sr);
 
   coord->motor_l(Point(lx, ly));
   coord->motor_r(Point(rx, ry));
@@ -87,7 +88,7 @@ void vp_goto(int x, int y) {
 void vp_move(int x, int y) {
   coord->move(Point(x, y));
   execute();
-}
+}  
 
 void vp_home() {
   coord->home();
