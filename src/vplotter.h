@@ -1,8 +1,6 @@
 #ifndef __VPLOTTER_H__
 #define __VPLOTTER_H__
 
-#include "control.hpp"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
